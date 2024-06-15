@@ -1,15 +1,32 @@
+import java.nio.charset.Charset
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    // Convert "UTF-8" string to Charset object
+    val charset = Charset.forName("UTF-8")
+    localPropertiesFile.reader(charset).use { reader ->
+        localProperties.load(reader)
+    }
 }
 
 android {
     namespace = "com.example.personalchatbot"
     compileSdk = 34
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.example.personalchatbot"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -18,6 +35,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "GENERATIVE_AI_API_KEY", "\"${localProperties["GENERATIVE_AI_API_KEY"]}\"")
     }
 
     buildTypes {

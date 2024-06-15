@@ -3,6 +3,8 @@ package com.example.personalchatbot
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.personalchatbot.BuildConfig.GENERATIVE_AI_API_KEY
+import com.google.ai.client.generativeai.BuildConfig
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.launch
@@ -16,8 +18,7 @@ class ChatBotViewModel : ViewModel() {
     private val genAI by lazy {
         GenerativeModel(
             modelName = "gemini-pro",
-            apiKey = ApiKey
-
+            apiKey = GENERATIVE_AI_API_KEY
         )
     }
 
